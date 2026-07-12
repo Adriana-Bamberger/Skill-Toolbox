@@ -59,4 +59,3 @@ Enforce consistent code styling, linting pipelines, secure git hooks, and specia
 git commit --no-verify
 git push --no-verify
 ```
-

@@ -3,43 +3,40 @@
 Personal repository for tracking, versioning, and customizing Claude Code skills.
 
 ## Structure
+Skills are organized into clear, domain-specific categories. Each specialized command resides in its own kebab-case folder containing an execution `SKILL.md` prompt file and a dedicated `templates/` folder holding static configuration baselines.
 
-Skills are organized into domain-specific categories. Each skill resides in its own kebab-case folder containing a mandatory `SKILL.md` file and any accompanying configurations.
-
-```text
+```Plaintext
 Skill-Toolbox/
-├── backend/
-├── foundation/
-├── frontend/
-│   └── setup-dx-tooling/
+├── [area]/
+│   └── [skill name]/
 │       ├── SKILL.md
-│       └── templates/          # Static configuration baselines
-│           ├── .prettierrc
-│           └── eslint.config.js
-├── other/
-├── security/
-├── testing/
-│   └── dependency-doctor/
-│       └── SKILL.md
-└── sync-skills.sh              # Automation and symlink engine
+│       └── templates/
+│           ├── [example.tsx]
+│           ├── [example.ts]
+│           └── [example.json]
+└── sync-skills.sh
 ```
-## Skills Architecture
-Skills extend Claude Code with custom slash commands. Instead of single monolithic skills, tools are split modularly into Core Stacks and Utility Add-ons to minimize active token footprints and eliminate AI configuration hallucinations.
+## Skill Architecture & Token-Optimization Engineering
+Skills extend the Claude Code CLI environment with custom slash commands. To ensure high execution reliability and keep active token consumption exceptionally lean, these configurations strictly enforce a few primary design principles:
 
-### Best Practice: Utilizing Template Files
-You can stash static production-ready configuration files (like .prettierrc, .husky/pre-commit, or pull request templates) inside a folder right next to your SKILL.md.
+### 1. The Token-Efficiency Principle (Action-Oriented Command Strings)
+Older skill iterations utilized anxious, defensive guardrails inside instructions (e.g., "Paste the contents exactly as read," "Do not alter or omit formatting keys," or "Do not hallucinate").
 
-Because Claude Code treats the skill directory as an intact working environment, you can reference these files using relative file paths in your prompt instructions.
+Modern LLM attention layers treat negative prompting as redundant noise. Removing these anxious warnings saves hundreds of system context tokens across multiple tool definitions, speeds up command generation times, and keeps execution prompts clean. Write direct, positive commands instead.
 
-Example SKILL.md directive:
+- ❌ Inefficient Syntax: `1. Read the template. 2. Write it to the root directory. 3. Copy verbatim, do not miss brackets, and do not alter parameters.`
 
-1. Read the exact contents of `./templates/.prettierrc` from this skill's directory.
+- 🚀 Optimized Syntax: `1. Read the contents of ./templates/.prettierrc from this skill's directory and write it directly to .prettierrc in the project root workspace.`
 
-2. Create a new file named `.prettierrc` in the root of the user's project workspace.
+### 2. Static Isolation via the `/templates` Folder
+Never place raw code strings, massive JSON blocks, or deep configuration scripts inside the actual `SKILL.md` instruction file.
 
-3. Paste the contents exactly as read. Do not alter, omit, or hallucinate formatting keys.
+Because Claude Code treats the skill directory as an intact working environment, moving all physical boilerplate templates into a separate `./templates/` folder ensures Claude only evaluates code tokens when it actively streams the files to disk. This completely eliminates syntax distortion and escaping issues common with raw shell creation scripts.
 
-This turns Claude into a 100% accurate file-copying agent and drastically cuts token overhead.
+### 3. Downstream Onboarding Delivery (Automatic README Appending)
+When initializing tools that require out-of-band developer tasks (such as setting up a cloud account or generating access tokens for Storybook/Chromatic), the skill should automatically append step-by-step onboarding documentation to the project's root `README.md.`
+
+This creates a seamless hand-off boundary: the developer gets an immediate, permanent guide stamped directly inside their repository workspace for immediate reference, avoiding terminal context spam.
 
 ## Automation & Syncing
 Claude Code expects global custom skills to live in a flat directory at `~/.claude/skills/` and will not natively crawl nested subdirectories.

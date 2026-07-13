@@ -14,7 +14,7 @@ Scaffold a high-performance React SPA container integrated with Tailwind CSS sty
 1. Execute the non-interactive baseline template initialization command via the terminal to bootstrap the Vite React TypeScript core into the current directory:
 
 ```bash
-  npm create vite@latest . -- --template react-ts
+   npm create vite@latest . -- --template react-ts
 ```
 
 ### Step 2: Core Routing & Styling Injection
@@ -26,19 +26,15 @@ Scaffold a high-performance React SPA container integrated with Tailwind CSS sty
   npm install -D tailwindcss @tailwindcss/vite
 ```
 
-2. Update the `vite.config.ts` configuration file by parsing its structures and injecting the `@tailwindcss/vite` compiler plugin cleanly into the `plugins` array.
-3. Replace the contents of `src/index.css` with the modern Tailwind engine baseline directive:
-
-```css
-@import 'tailwindcss';
-```
+2. Read the optimized build configuration from `./templates/vite.config.ts` from this skill's directory and write it directly to `vite.config.ts` in the project root workspace.
+3. Read the Tailwind styling directive from `./templates/src/index.css` from this skill's directory and write it directly to `src/index.css` in the project workspace.
 
 ### Step 3: Scaffolding Directory Blueprints
 
 1. Read the comprehensive structural asset files grouped within the skill’s local template environment.
-2. Write the main app orchestration layer directly from `./templates/src/main.tsx` to `src/main.tsx.`
-3. Create the route mapping table directly from `./templates/src/routes.tsx` to `src/routes.tsx.`
-4. Overwrite `src/App.tsx` using the streamlined fallback baseline template file located at `./templates/src/App.tsx.`
+2. Write the main app orchestration layer directly from `./templates/src/main.tsx` to `src/main.tsx`.
+3. Create the route mapping table directly from `./templates/src/routes.tsx` to `src/routes.tsx`.
+4. Overwrite `src/App.tsx` using the streamlined fallback baseline template file located at `./templates/src/App.tsx`.
 
 ## Best Practices & Enforcement Parameters
 

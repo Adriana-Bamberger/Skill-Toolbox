@@ -1,0 +1,3 @@
+/* Registers the Flowbite interactive component styles with the Tailwind v4 compiler engine */
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite-react/dist/esm/**/*.mjs";
